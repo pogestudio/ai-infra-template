@@ -1,0 +1,26 @@
+# --- secrets (never commit the real env file; .env.claude.example is the template) ---
+.env.claude
+.env
+*.env.local
+
+# --- Ralph loop runtime state ---
+ralph/.ralph-status
+AI-Info/implementation-plans/current/*
+!AI-Info/implementation-plans/current/.gitkeep
+
+# --- Claude Code local state ---
+.claude/settings.local.json
+.claude-container-config/
+.playwright-mcp/
+.cache/
+
+# --- deps / build ---
+node_modules/
+__pycache__/
+*.pyc
+venv/
+
+# --- dev runtime ---
+.devlogs/
+*.log
+.DS_Store

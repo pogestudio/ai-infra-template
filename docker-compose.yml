@@ -1,0 +1,18 @@
+services:
+  dev:
+    build: .
+    volumes:
+      # Mount project files
+      - .:/workspace
+      # Mount shared Claude credentials (for OAuth persistence)
+      - claude-credentials:/home/app/.claude-persist
+    environment:
+      - GIT_TOKEN=${GIT_TOKEN:-}
+      - GITHUB_TOKEN=${GITHUB_TOKEN:-}
+    stdin_open: true
+    tty: true
+    working_dir: /workspace
+
+volumes:
+  claude-credentials:
+    external: true

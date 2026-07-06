@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "@playwright/mcp",
+        "--headless",
+        "--isolated",
+        "--no-sandbox",
+        "--browser",
+        "chromium",
+        "--viewport-size",
+        "1280,800",
+        "--output-dir",
+        ".playwright-mcp"
+      ],
+      "env": {
+        "PLAYWRIGHT_BROWSERS_PATH": ".cache/ms-playwright"
+      }
+    }
+  }
+}
