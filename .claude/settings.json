@@ -1,4 +1,27 @@
 {
   "alwaysThinkingEnabled": true,
-  "showThinkingSummaries": true
+  "showThinkingSummaries": true,
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "rm -f /tmp/claude-hook-*"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/pre-ai-context-write.sh"
+          }
+        ]
+      }
+    ]
+  }
 }

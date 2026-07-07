@@ -14,12 +14,26 @@ if [ -d "${PEON_BACKUP}/hooks/peon-ping" ] && [ ! -d "${CLAUDE_LOCAL}/hooks/peon
   if [ -f "${PEON_BACKUP}/settings.json" ]; then
     if [ ! -f "${CLAUDE_LOCAL}/settings.json" ] || [ ! -s "${CLAUDE_LOCAL}/settings.json" ]; then
       cp "${PEON_BACKUP}/settings.json" "${CLAUDE_LOCAL}/settings.json"
-    else
+    elif ! grep -q "peon-ping" "${CLAUDE_LOCAL}/settings.json"; then
+      # Local settings lacks peon hooks: merge them in. On failure, KEEP local
+      # (never clobber the curated settings.json — that would drop statusLine / showThinkingSummaries).
       jq -s '.[0] * {hooks: (.[0].hooks // {} | to_entries + (.[1].hooks // {} | to_entries) | group_by(.key) | map({key: .[0].key, value: [.[] | .value[]] | unique}) | from_entries)}' \
         "${CLAUDE_LOCAL}/settings.json" "${PEON_BACKUP}/settings.json" > "${CLAUDE_LOCAL}/settings.json.tmp" \
         && mv "${CLAUDE_LOCAL}/settings.json.tmp" "${CLAUDE_LOCAL}/settings.json" \
-        || cp "${PEON_BACKUP}/settings.json" "${CLAUDE_LOCAL}/settings.json"
+        || { rm -f "${CLAUDE_LOCAL}/settings.json.tmp"; echo "[peon-ping] merge failed; keeping existing settings.json"; }
+    else
+      echo "[peon-ping] settings.json already has peon hooks; leaving as-is"
     fi
+  fi
+
+  # Strip any "async" property the peon-ping installer baked into hook entries.
+  # The async Stop hook emits a noisy "Async hook ... completed" line; user-requested removal.
+  if [ -f "${CLAUDE_LOCAL}/settings.json" ] && command -v jq >/dev/null 2>&1; then
+    jq 'if has("hooks") then .hooks |= walk(if type=="object" then del(.async) else . end) else . end' \
+      "${CLAUDE_LOCAL}/settings.json" > "${CLAUDE_LOCAL}/settings.json.tmp" \
+      && mv "${CLAUDE_LOCAL}/settings.json.tmp" "${CLAUDE_LOCAL}/settings.json" \
+      && echo "[peon-ping] Stripped async from hook entries" \
+      || rm -f "${CLAUDE_LOCAL}/settings.json.tmp"
   fi
 
   chown -R app:app "${CLAUDE_LOCAL}"
