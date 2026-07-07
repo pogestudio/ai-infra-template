@@ -9,7 +9,7 @@ PEON_BACKUP="/opt/peon-ping-backup"
 WORKSPACE="${PWD:-/workspace}"
 
 # Docker
-IMAGE_NAME="my-project"   # CUSTOMIZE: your project's docker image name
+IMAGE_NAME="ai-starter-image"   # CUSTOMIZE: your project's docker image name
 CLAUDE_CREDS_VOLUME="claude-credentials"
 
 # Peon-ping relay

@@ -168,6 +168,49 @@ gracefully if you delete them.
 
 ## 4. Ralph loop operations manual
 
+### The loop in one picture
+
+Two halves: issues are authored with a human present, then the loop VM plans and builds them with
+no human present.
+
+```mermaid
+flowchart TD
+    classDef human   fill:#fde2b3,stroke:#d98c00,color:#5a3d00
+    classDef system  fill:#cfe3ff,stroke:#2f6fd0,color:#0b2c5c
+    classDef trigger fill:#eeeeee,stroke:#888888,color:#333333
+    classDef done    fill:#d9f2d9,stroke:#3a9c3a,color:#14501a
+    classDef header  fill:#eaeaea,stroke:#bbbbbb,color:#111111
+
+    subgraph AUTH[" "]
+        direction TB
+        Ahdr["My machine — human in the loop"]:::header
+        Ahdr --> A1(["Ask Claude to add a user story to<br>user-stories-atomized.md in the correct format"]):::human
+        A1 --> A2[["/ralph-prio<br>promote story: user-stories-atomized.md<br>→ user-stories-list.md"]]:::human
+        A2 --> A4[["/ralph-create-issues<br>thorough research and grill session to align"]]:::human
+        A4 --> A5["GitHub issue #N created<br>label: agent-ready"]:::trigger
+    end
+
+    subgraph VM[" "]
+        direction TB
+        Vhdr["Loop VM — no human present"]:::header
+        Vhdr --> L1[/"./ralph-loop.sh"/]:::system
+        L1 --> PICK[/"ralph-loop-pick-gh-user-story.sh<br>find current claim or claim new issue #N"/]:::system
+        PICK --> D{"current-plan.md exists?"}:::trigger
+        D -- "NO" --> NOPLAN["inject #N into PROMPT-plan.md<br>run claude"]:::system
+        NOPLAN --> PS[["/ralph-tdd-plan<br>→ current-plan.md"]]:::system
+        PS --> PD[/"ralph-loop-plan-done.sh<br>delete subagent reports and SIGKILL"/]:::system
+        PD --> PICK
+        D -- "YES" --> HASPLAN["inject #N into PROMPT-tdd.md<br>run claude"]:::system
+        HASPLAN --> TS[["/ralph-tdd<br>red-green-refactor + e2e"]]:::system
+        TS --> TD[/"ralph-loop-done.sh<br>tests green? close #N · unclaim · SIGKILL"/]:::system
+        TS --> TO["TIMEOUT — SIGKILL"]:::trigger
+        TO --> PICK
+        TD --> PICK
+    end
+
+    A5 ~~~ Vhdr
+```
+
 ### Mental model
 
 The loop turns **GitHub issues into shipped, tested code with no human present**. Each iteration:

@@ -5,10 +5,12 @@ An autonomous GitHub issue runner. Each iteration claims one open issue, launche
 context. Plan and build are deliberately split across two iterations so the build always starts from
 a fresh context instead of one already filled by the planning fan out.
 
-This folder is the harness only. The operations manual (mental model, invariants, running, stopping,
-monitoring, concurrency, failure modes) lives in the top level `README.md`, section 4, and the setup
-steps live in its section 2. This file covers only what is not documented there: the role of each
-script, and the helper scripts the loop calls but does not ship.
+This folder is the harness only. The operations manual (a diagram of the whole flow, mental model,
+invariants, running, stopping, monitoring, concurrency, failure modes) lives in the top level
+`README.md`, section 4, and the setup steps live in its section 2. Start with the mermaid diagram
+there ("The loop in one picture") to see how issue authoring on your machine feeds the loop on the
+VM. This file covers only what is not documented there: the role of each script, and the helper
+scripts the loop calls but does not ship.
 
 ## Scripts
 

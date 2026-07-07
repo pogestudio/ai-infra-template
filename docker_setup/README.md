@@ -14,6 +14,7 @@ Each script handles one concern. They are sourced by `docker-entrypoint.sh` in o
 | `setup-peon-ping.sh` | root | Copy peon-ping from /opt backup into mounted ~/.claude, merge hooks |
 | `setup-gdrive.sh` | root | Export GDRIVE_CREDENTIALS_DIR if credentials/ folder exists |
 | `setup-playwright.sh` | root | Export PLAYWRIGHT_BROWSERS_PATH |
+| `setup-shell.sh` | root | Append the `cdv` alias (permission skipping `claude`, Sonnet subagents) to the app user's `.bashrc` |
 | `install-statusline.sh` | app | Install Claude Code statusline (runs after entrypoint via CMD) |
 | `sync-claude-token-from-keychain.sh` | host (macOS) | Three-way Keychain/volume/local freshness comparison |
 
@@ -33,7 +34,7 @@ Each script handles one concern. They are sourced by `docker-entrypoint.sh` in o
 | `CLAUDE_PERSIST` | `/home/app/.claude-persist` | credentials |
 | `PEON_BACKUP` | `/opt/peon-ping-backup` | peon-ping |
 | `WORKSPACE` | `${PWD:-/workspace}` | python-dev, gdrive |
-| `IMAGE_NAME` | `codex-expo-claude` | run-claude.sh |
+| `IMAGE_NAME` | `ai-starter-image` (CUSTOMIZE) | run-claude.sh |
 | `CLAUDE_CREDS_VOLUME` | `claude-credentials` | run-claude.sh |
 | `PEON_RELAY_HOST` | `host.docker.internal` | run-claude.sh |
 | `PEON_RELAY_PORT` | `19998` | run-claude.sh |
