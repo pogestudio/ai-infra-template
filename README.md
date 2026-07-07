@@ -118,7 +118,6 @@ every project's container reuses it. On macOS the token also auto-syncs from the
 gh auth status                                   # must succeed inside the container
 gh label create agent-ready                      # the loop's queue label
 gh label create claimed-ralph-0                  # one per loop id you'll run (0..3)
-gh label create comm-test                        # optional: backend-only behaviour-test issues
 git checkout -b ralph-loop && git push -u origin ralph-loop   # the loop's single work branch
 ```
 

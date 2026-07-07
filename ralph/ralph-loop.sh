@@ -114,16 +114,14 @@ while true; do
   # picker reports STATUS=done once the queue is empty. Read STATUS/MODE/ISSUE from key=value stdout.
   set +e
   picker_out=$("$PICKER")
-  # Parse under `set +e` too: an OPTIONAL key (KIND, emitted only for comm-test issues) means its
-  # `grep` finds nothing and exits 1, which `pipefail` propagates to the bare assignment — under
-  # `set -e` that SILENTLY kills the whole loop right here, before the banner (the regression that
-  # made every non-comm-test issue exit at once). Keeping `set -e` off through the parse also makes
-  # the `*)` "no usable STATUS → retry" branch below reachable on garbled/partial picker output,
-  # instead of crashing at the STATUS grep first.
+  # Parse under `set +e`: on the STATUS=done / STATUS=unknown paths the picker emits no MODE/ISSUE,
+  # so those greps find nothing and exit 1, which `pipefail` propagates to the bare assignment — under
+  # `set -e` that would SILENTLY kill the whole loop right here, before we can branch on STATUS.
+  # Keeping `set -e` off through the parse also makes the `*)` "no usable STATUS → retry" branch below
+  # reachable on garbled/partial picker output, instead of crashing at the STATUS grep first.
   picker_status=$(grep -E '^STATUS=' <<<"$picker_out" | head -n1 | cut -d= -f2-)
   mode=$(grep -E '^MODE=' <<<"$picker_out" | head -n1 | cut -d= -f2-)
   issue=$(grep -E '^ISSUE=' <<<"$picker_out" | head -n1 | cut -d= -f2-)
-  kind=$(grep -E '^KIND=' <<<"$picker_out" | head -n1 | cut -d= -f2-)   # comm-test ⇒ skip FE research + e2e
   set -e
 
   case "$picker_status" in
@@ -172,7 +170,7 @@ while true; do
   echo
   echo "============================================================"
   echo "ralph-loop: iteration $iteration  (loop ${RALPH_LOOP_ID:-0})"
-  echo "  issue:    #${issue:-?}   mode: ${mode:-plan}   kind: ${kind:-feature}"
+  echo "  issue:    #${issue:-?}   mode: ${mode:-plan}"
   echo "  model:    Opus 4.7 [1m] @ xhigh  (subagents: $CLAUDE_CODE_SUBAGENT_MODEL)"
   echo "  started:  $ts"
   echo "  timeout:  ${iter_timeout}s (then SIGKILL)"
@@ -187,26 +185,6 @@ while true; do
   # @@ISSUE@@/@@LOOP_ID@@ templates, so the tree never goes dirty and the next iteration re-renders
   # from the same source. Tokens are digits-only, safe for the `/` sed delimiter.
   prompt_text=$(sed -e "s/@@ISSUE@@/${issue}/g" -e "s/@@LOOP_ID@@/${RALPH_LOOP_ID:-0}/g" "$prompt_file")
-
-  # comm-test issues have no frontend and no browser e2e — append a directive so the planning
-  # fan-out skips frontend research and the build skips Playwright. The ralph-tdd* skills carry the
-  # matching guards; this per-issue note is the signal that triggers them. Appended to the rendered
-  # text, NOT the .md, so the PROMPT-*.md templates stay pristine @@token@@ sources.
-  # CUSTOMIZE: optional mechanism — only fires on issues you label `comm-test` (backend-only
-  # behaviour tests proven by a non-browser harness). Point the directive at your harness, or
-  # ignore it: without the label this block never runs.
-  if [[ "$kind" == "comm-test" ]]; then
-    prompt_text="${prompt_text}
-
-## This is a comm-test issue — adjust the workflow
-The \`comm-test\` label marks a backend-only behaviour test: **no frontend, no browser e2e.** The
-deliverable is a scenario in the project's behaviour-test harness, proven by running that
-harness per the issue's Run / verify + Definition of done.
-- Planning (/ralph-tdd-plan): SKIP the frontend + architecture research fan-out and the
-  design-reference pass — research the backend seams and the test harness only.
-- Build (/ralph-tdd): SKIP the Playwright e2e step — there is no browser journey. Prove the
-  scenario with the harness and paste the transcript instead."
-  fi
 
   iter_start=$SECONDS
   set +e

@@ -87,9 +87,6 @@ shared instance, so never parallel drivers (see step 4).
    UX spec).
 
 4. **E2E the user journey — dispatch ONE subagent to drive it; don't drive Playwright yourself.**
-   **Skip this whole step for `comm-test` issues** (the loop appends a note flagging them) — a
-   backend-only behaviour-test issue has no browser journey; it's proven by the test harness named
-   in the issue, not Playwright. (Optional mechanism — only fires if you use the `comm-test` label.)
    Delegating keeps the token-heavy DOM snapshots and console logs out of *your* context, and the
    browser is a single shared instance, so exactly **one** e2e subagent runs at a time (never fan out
    parallel browser drivers — they'd fight over the one browser). Hand that subagent a self-contained

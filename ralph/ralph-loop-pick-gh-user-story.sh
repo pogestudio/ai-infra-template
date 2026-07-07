@@ -23,10 +23,7 @@
 # Output (stdout, key=value):
 #   STATUS=found|done|unknown
 #   ISSUE=<n>  BRANCH=ralph-loop  MODE=plan|tdd     (found — MODE drives the runner's prompt+timer)
-#   KIND=feature|comm-test                          (found — comm-test ⇒ runner skips FE research+e2e)
 #   MESSAGE=<text>                                  (unknown)
-# KIND is ALWAYS emitted on found (feature is the default) so the runner's bare `grep '^KIND='`
-# can't fail under its `set -euo pipefail`; never make a found-path key optional again.
 # MODE=plan → no plan yet for this issue → planning iteration (/ralph-tdd-plan, 1.5× budget).
 # MODE=tdd  → an on-disk plan tagged this issue exists → build iteration (/ralph-tdd, 1× budget).
 #
@@ -42,7 +39,7 @@ ID="${RALPH_LOOP_ID:-0}"
 MY="claimed-ralph-$ID"
 PLAN="AI-Info/implementation-plans/current/current-plan.md"
 
-emit_found()   { echo "STATUS=found"; echo "ISSUE=$1"; echo "BRANCH=$BRANCH"; echo "MODE=$2"; if is_comm_test "$1"; then echo "KIND=comm-test"; else echo "KIND=feature"; fi; exit 0; }
+emit_found()   { echo "STATUS=found"; echo "ISSUE=$1"; echo "BRANCH=$BRANCH"; echo "MODE=$2"; exit 0; }
 emit_done()    { echo "STATUS=done"; exit 0; }
 emit_unknown() { echo "STATUS=unknown"; echo "MESSAGE=$1"; exit 0; }
 log() { echo "ralph-loop-pick[$ID]: $*" >&2; }
@@ -108,12 +105,6 @@ extract_blockers() {
 }
 
 is_closed() { [[ "$(gh issue view "$1" --json state -q '.state' 2>/dev/null)" == "CLOSED" ]]; }
-
-# Does this issue carry the `comm-test` label? A backend-only behaviour test has no frontend and no
-# browser e2e, so the runner forwards KIND=comm-test into the prompt and the planning fan-out skips
-# the frontend research while the build skips Playwright (ralph-loop.sh + the ralph-tdd* skills carry
-# the matching guards). Emitted by emit_found, so it costs one extra read only on the launched issue.
-is_comm_test() { [[ "$(gh issue view "$1" --json labels --jq 'any(.labels[].name; . == "comm-test")' 2>/dev/null)" == "true" ]]; }
 
 # The issue number tagged in the on-disk plan (the planner writes "**Issue:** #N"); empty if no
 # plan. The drift check and MODE both key off this — it's how a restart tells "build the planned

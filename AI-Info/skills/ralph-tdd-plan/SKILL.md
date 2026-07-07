@@ -48,10 +48,6 @@ it. **You plan; you do not write implementation code.**
      (B) the relevant component dirs + navigation model, (C) the relevant
      `software-architecture.md` section. Each sweeps the whole frontend + architecture surface
      from its entry point. <!-- CUSTOMIZE: name your frontend's key dirs/modules. -->
-     **Skip this entire fact-area for `comm-test` issues** (the loop appends a note flagging them) —
-     a backend-only behaviour-test issue has no frontend, so 3 agents here would burn budget for
-     nothing; research the backend seams + the test harness the issue names instead.
-     (Optional mechanism — only fires if you use the `comm-test` label.)
 
    Each research agent writes `…/current/research/<area>.agent<N>.md` — to a file, not back
    through your context, which avoids the game-of-telephone summarisation loss — in this schema:
