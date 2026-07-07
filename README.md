@@ -211,6 +211,15 @@ flowchart TD
     A5 ~~~ Vhdr
 ```
 
+### Creating the issues the loop builds (the human half)
+
+The loop only builds what an issue pins down, so issue creation happens with a human present.
+Run `/ralph-create-issues` on a story from `AI-Info/docs/user-story-list.md`: it researches the
+codebase and the architecture spec, then grills you until every open decision is settled and
+records the answers **verbatim** in one loop-ready GitHub issue per story (acceptance criteria,
+`Blocked by` refs, and for UI stories the design-reference pointer). The issue is labelled
+`agent-ready`, which is what puts it in the loop's queue.
+
 ### Mental model
 
 The loop turns **GitHub issues into shipped, tested code with no human present**. Each iteration:
