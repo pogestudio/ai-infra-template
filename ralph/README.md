@@ -10,7 +10,7 @@ invariants, running, stopping, monitoring, concurrency, failure modes) lives in 
 `README.md`, section 4, and the setup steps live in its section 2. Start with the mermaid diagram
 there ("The loop in one picture") to see how issue authoring on your machine feeds the loop on the
 VM. This file covers only what is not documented there: the role of each script, and the helper
-scripts the loop calls but does not ship.
+scripts under `scripts/` the loop depends on.
 
 ## Scripts
 
@@ -27,16 +27,20 @@ scripts the loop calls but does not ship.
 | `ralph-issue-drift.sh` | Recovers from a claim vs plan mismatch (the held issue is not the one the on disk plan is tagged for). Logs the drift to `.drift-log`, drops the claim, deletes the stale plan, and SIGKILLs the iteration if running under one. A clean restart. |
 | `ralph-loop-kill-self.sh` | Shared helper, meant to be sourced. Defines `ralph_kill_iteration`, which walks `/proc` up its own ancestry to find and SIGKILL the `claude` that owns the current iteration (no `pkill` in the container). Used by both done scripts and the drift handler. |
 
-## Helper scripts the loop calls but does not ship
+## Helper scripts the loop calls
 
 The setup checklist in the top level README covers `scripts/run-tests.sh` and `scripts/dev-up.sh`.
-The loop additionally calls two scripts that are not part of the template, and it exits hard when
-they are missing:
+The loop additionally calls two scripts that ship ready to use, and it exits hard when either is
+missing:
 
 - `scripts/ensure-vite-arch.sh`: run once at loop startup to heal host vs container native binary
-  drift. Replace with a stub that exits 0 for repos where that cannot happen.
+  drift in a bind mounted vite `frontend/` (rollup and esbuild ship per OS binaries, so a
+  node_modules shared between the macOS host and the Linux container breaks). Stub it to `exit 0`
+  for repos without vite.
 - `scripts/clear-research-dir.sh`: wipes the planning scratch dir. Called before a plan iteration
-  starts and again by `ralph-loop-plan-done.sh` when the plan is written.
+  starts and again by `ralph-loop-plan-done.sh` when the plan is written. It exists as a script so
+  the unattended loop never issues a bare `rm -rf`, which trips Claude Code's dangerous command
+  prompt even with permissions skipped (see its header).
 
 ## Runtime files
 

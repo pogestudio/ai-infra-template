@@ -46,7 +46,9 @@ Three subsystems, designed to work together but usable separately:
 ├── ralph/                       ← the loop: runner, picker, done-gate, drift handler, 2 prompts
 ├── scripts/
 │   ├── dev-up.sh                ← FAIL-FAST SKELETON: implement per its header contract
-│   └── run-tests.sh             ← FAIL-FAST SKELETON: implement per its header contract
+│   ├── run-tests.sh             ← FAIL-FAST SKELETON: implement per its header contract
+│   ├── ensure-vite-arch.sh      ← heals host vs container vite native-binary drift (CUSTOMIZE if no vite)
+│   └── clear-research-dir.sh    ← wipes the loop's planning scratch dir between iterations
 ├── AI-Info/
 │   ├── architecture-spec.md     ← skeleton: the LOCKED design authority (fill §3/§7/§8 first)
 │   ├── software-architecture.md ← skeleton: map of existing seams
@@ -96,6 +98,7 @@ Every hit is a decision only you can make. The big ones:
 | `docker_setup/config.sh` | `IMAGE_NAME` — the project's docker image name |
 | `scripts/run-tests.sh` | your real test commands (it **exits 1 on purpose** until you do) |
 | `scripts/dev-up.sh` | start/stop/health-wait/seed for your stack (also fail-fast until implemented) |
+| `scripts/ensure-vite-arch.sh` | ships working for a vite `frontend/`; repoint the dir, or stub to `exit 0` if your repo has no vite |
 | `CLAUDE.md` | project name, stack, test commands, dev URLs, seeded login |
 | `AI-Info/architecture-spec.md` | the locked design (fill §3 module map, §7 decisions, §8 build order first) |
 | `AI-Info/software-architecture.md` | map of the existing seams |
