@@ -363,7 +363,7 @@ provenance in `skills-lock.json`. Full index with descriptions: `AI-Info/skills/
 | Ralph build (headless) | `/ralph-tdd`, `/ralph-tdd-plan` | invoked by the loop's prompts, not by you |
 | Working practice | `/grill-me`, `/systematic-debugging`, `/security-review`, `/improve-codebase-architecture`, `/workflow-retro`, `/quick-workflow-retro` | |
 | Skill-writing | `/how-to-create-a-skill`, `/how-to-write-ai-instructions` | |
-| Reference docs | `how-to-TDD.md`, `how-to-write-claude-md.md`, `how-to-write-modular-code.md` + the TDD knowledge files inside `ralph-tdd/` | not slash-commands |
+| Reference docs | `how-to-TDD.md`, `how-to-write-modular-code.md` + the TDD knowledge files inside `ralph-tdd/` | not slash-commands |
 
 Local agents (`.claude/commands/` → `AI-Info/local-agents/`): **`/tech-ranger`** for focused
 interactive implementation work, **`/meta-agent`** for working on this agent system itself.

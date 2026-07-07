@@ -47,13 +47,12 @@ So the one rule that overrides the rest: **if you add a line, remove one.** Only
 universally-applicable content earns a place; everything task-specific belongs in a
 pointed-to file.
 
-Don't restate the full method here — read these two skills before touching any
+Don't restate the full method here — read this skill before touching any
 instruction file (CLAUDE.md, an agent doc, a SKILL.md, a memory file):
 
 - `AI-Info/skills/how-to-write-ai-instructions/SKILL.md` — explain the *why*, instruction
-  budget, what-goes-where, the quality checklist.
-- `AI-Info/skills/how-to-write-claude-md.md` — why Claude ignores bloated CLAUDE.md,
-  progressive disclosure, why never to auto-generate it.
+  budget, what-goes-where, the quality checklist. Covers CLAUDE.md too: why Claude ignores
+  bloated ones, progressive disclosure, why never to auto-generate it.
 
 ## Ralph Loop
 
@@ -114,8 +113,7 @@ identical to a single-loop setup (base dev ports, default dev DB, label
 
 | Skill | Location |
 |-------|----------|
-| **Writing AI instructions** | `AI-Info/skills/how-to-write-ai-instructions/SKILL.md` |
-| **Writing CLAUDE.md** | `AI-Info/skills/how-to-write-claude-md.md` |
+| **Writing AI instructions / CLAUDE.md** | `AI-Info/skills/how-to-write-ai-instructions/SKILL.md` |
 | **Creating a skill** | `how-to-create-a-skill` skill — format, frontmatter, structure |
 | **PRD authoring** | `AI-Info/skills/write-a-prd/SKILL.md` — slice/blocker conventions for the *removed* `ralph-loop-pick.sh` flow, not this loop |
 | **PRD → issues** | `AI-Info/skills/prd-to-issues/SKILL.md` — vertical-slice breakdown for `agent-ready` |

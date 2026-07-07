@@ -42,4 +42,4 @@ backlog `AI-Info/docs/user-story-list.md` is the roadmap *above* the GitHub-issu
 ## Reference docs (not slash-skills)
 
 `how-to-TDD.md` (concrete test patterns — CUSTOMIZE for your stack) ·
-`how-to-write-claude-md.md` · `how-to-write-modular-code.md`
+`how-to-write-modular-code.md`
