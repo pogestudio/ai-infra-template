@@ -73,9 +73,9 @@ RUN useradd -m app \
   && mkdir -p /workspace /home/app/.npm-global \
   && chown -R app:app /workspace /home/app/.npm-global
 
-# Install Claude Code and Heroku CLI globally (npm-based install, auto-updater disabled).
+# Install Claude Code globally (npm-based install, auto-updater disabled).
 USER app
-RUN npm install -g @anthropic-ai/claude-code heroku
+RUN npm install -g @anthropic-ai/claude-code
 
 # Install audio player for peon-ping + Playwright Chromium runtime libs
 # (Playwright itself stays a project devDependency; only the OS libs Chromium

@@ -81,6 +81,15 @@ if [ "$BUILD" = true ]; then
   echo ""
 fi
 
+# Build automatically when the image doesn't exist locally. Without this, a bare
+# `docker run` tries to pull "${IMAGE_NAME}" from a registry and dies with
+# "pull access denied" — the image is local-only and never pushed anywhere.
+if ! docker image inspect "${IMAGE_NAME}" >/dev/null 2>&1; then
+  echo "[run] Image '${IMAGE_NAME}' not found locally — building it first (cached)..."
+  docker build -t "${IMAGE_NAME}" "${SCRIPT_DIR}"
+  echo ""
+fi
+
 # Get folder name and git info for terminal title
 FOLDER_NAME=$(basename "${PROJECT_DIR}")
 GIT_BRANCH=""

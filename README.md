@@ -140,7 +140,7 @@ git checkout -b ralph-loop && git push -u origin ralph-loop   # the loop's singl
 `Dockerfile` builds a Debian (node:20-bookworm-slim) image with: git, python3 + venv, build
 tools, sqlite3, MySQL client libs, Docker CLI (for docker-in-docker), **GitHub CLI**,
 **cloudflared** (quick-tunnels so external webhooks can reach your dev backend), **Claude Code**
-+ **Heroku CLI** (npm globals), Playwright's Chromium runtime libs, and **peon-ping** (terminal
+(npm global), Playwright's Chromium runtime libs, and **peon-ping** (terminal
 notification sounds, relay-mode to the host). Trim what you don't use — everything past the base
 tooling is optional.
 
