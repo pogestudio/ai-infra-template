@@ -51,7 +51,7 @@ pytest on SQLite, frontend vitest). Always run them before committing.
 | **TDD Approach** | `AI-Info/skills/how-to-TDD.md` — test-first workflow |
 | **Modular Code** | `AI-Info/skills/how-to-write-modular-code.md` — 300 line limit, splitting strategies |
 | **Architecture** | `AI-Info/software-architecture.md` — the current six-module map; read it before building a feature |
-| **Setup & Deploy** | `SETUP.md` — local dev setup and Heroku deployment |
+| **Setup & Dev stack** | `scripts/dev-up.sh` — start/stop/health-wait/seed for the dev environment |
 
 ## Starting Dev Servers
 
