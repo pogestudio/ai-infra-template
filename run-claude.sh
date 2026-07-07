@@ -37,7 +37,8 @@ done
 
 if [ ! -f "${ENV_FILE}" ]; then
   echo "Env file not found: ${ENV_FILE}"
-  echo "Create one (e.g., copy .env.claude) with GIT_TOKEN/GIT_USERNAME and ANTHROPIC_API_KEY (or leave empty for web login)."
+  echo "Create it from the template:  cp .env.claude.example .env.claude"
+  echo "Then fill GIT_TOKEN/GIT_USERNAME; leave ANTHROPIC_API_KEY empty for Claude Code web login."
   exit 1
 fi
 
