@@ -1,12 +1,12 @@
 # AI-INFRA — reusable AI development infrastructure
 
 Everything needed to run **Claude Code in a Docker dev-container** and drive a project with the
-**Ralph loop** (autonomous, issue-driven, TDD user-story building), extracted from the Klara
+**Ralph loop** (autonomous, issue-driven, TDD user-story building), extracted from the used in a
 project where it was battle-tested over multiple weeks of headless building.
 
 **How to use this repo:** copy its contents into a new project, work through the
 [setup checklist](#2-new-project-setup-checklist), and you have the same working environment —
-skills, agents, loop scripts, container — that built Klara.
+skills, agents, loop scripts, container.
 
 **Contents**
 
@@ -38,7 +38,6 @@ Three subsystems, designed to work together but usable separately:
 ```
 ├── README.md                    ← you are here
 ├── CLAUDE.md                    ← starter project instructions (CUSTOMIZE)
-├── AGENTS.md                    ← mirror of CLAUDE.md for non-Claude tools (CUSTOMIZE)
 ├── .env.claude.example          ← container env template (copy to .env.claude, fill in)
 ├── .mcp.json                    ← Playwright MCP server (e2e browser driving)
 ├── skills-lock.json             ← provenance of vendored skills
@@ -97,7 +96,7 @@ Every hit is a decision only you can make. The big ones:
 | `docker_setup/config.sh` | `IMAGE_NAME` — the project's docker image name |
 | `scripts/run-tests.sh` | your real test commands (it **exits 1 on purpose** until you do) |
 | `scripts/dev-up.sh` | start/stop/health-wait/seed for your stack (also fail-fast until implemented) |
-| `CLAUDE.md` + `AGENTS.md` | project name, stack, test commands, dev URLs, seeded login |
+| `CLAUDE.md` | project name, stack, test commands, dev URLs, seeded login |
 | `AI-Info/architecture-spec.md` | the locked design (fill §3 module map, §7 decisions, §8 build order first) |
 | `AI-Info/software-architecture.md` | map of the existing seams |
 | `AI-Info/skills/ralph-*/SKILL.md` | the few inline CUSTOMIZE notes (key dirs, seeded login, ports) |
