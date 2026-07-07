@@ -52,12 +52,6 @@ user walkthroughs, validated prototypes. Every phase agent in step 2 reads from 
    a one-line dependency signal (what must ship first), a value signal, and a source `file:line`;
    it never edits the backlog.
 
-   <!-- CUSTOMIZE (optional pattern): if you maintain an *atomized story inventory* — a
-   spec-derived, per-area list of every possible story with a status legend (✅ built / 📋 queued /
-   ⬜ GAP) — make the GAP rows the candidate menu and have agents re-mine the raw specs only when
-   the inventory is stale. It keeps repeat runs cheap and dedup trivial. See the Klara originals
-   in examples/klara/ for a worked version. -->
-
 3. **Confirm each cross-ref ID.** The area agents propose these; you confirm each is unique against
    the step-1 map and ties to its source area, e.g. `P4.7` = the 7th story of area/phase P4. The ID
    is permanent and travels into the GitHub issue, so a story is always traceable back to its spec.

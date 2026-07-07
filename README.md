@@ -187,8 +187,7 @@ flowchart TD
     subgraph AUTH[" "]
         direction TB
         Ahdr["My machine — human in the loop"]:::header
-        Ahdr --> A1(["Ask Claude to add a user story to<br>user-stories-atomized.md in the correct format"]):::human
-        A1 --> A2[["/ralph-prio<br>promote story: user-stories-atomized.md<br>→ user-stories-list.md"]]:::human
+        Ahdr --> A2[["/ralph-prio<br>discover and prioritise stories<br>→ AI-Info/docs/user-story-list.md"]]:::human
         A2 --> A4[["/ralph-create-issues<br>thorough research and grill session to align"]]:::human
         A4 --> A5["GitHub issue #N created<br>label: agent-ready"]:::trigger
     end
